@@ -1,0 +1,81 @@
+There are two main approaches to dealing with errors when programming and they are referred to:
+1. LBYL : look before you leap
+2. EAFP : easy to ask for forgiveness than permission
+
+In Java is more common Look Before Your Leap, while EAFP dictates to go ahead and perform the 
+operation then respond to an exception if something goes wrong.
+
+Exception : the java documentation defines it as, an event that occurred during the execution of
+program that disrupts the normal flow of the program's instructions. 
+
+With Exception class we can catch any exception of any type, but it's recommended to be as specific
+as possible.
+
+STACK-TRACE : is a report of the active stack/pila frames at a certain point in time during the 
+execution of a program. When a program is run, memory is often dynamically allocated in two places;
+the stack/pila and the heap.
+
+CALL-STACK: is a list (pila o stack) of all the method's calls at any particular point in a program's
+execution. In the case of exceptions, we see all the methods calls at the point where the program
+crashed. Each thread of execution has its own call-stack and the thread is shown as the first line
+of the stack trace. In simple programs is the main thread, we often see:
+
+Exception in thread "main".....
+
+Every time a method is called is put in the stack, and when it returns is then removed from the stack. So,
+normally the best is start at the bottom. Normally our code, didn't call the methods in the top of the 
+stack. Going from the bottom up in the stack-trace we can see how the exception propagated.
+
+We can also throw an Exception, like:
+
+throw new NoSuchElementException();
+
+or
+
+throw new InputMismatchException();
+  
+ NOTE : exceptions are subclasses of the Exception class, and Exception itself extends Throwable. It's 
+ important to note that the Throwable constructor fills in the stack trace for the Exception. So any line 
+ where an Exception is created and thrown, that object contains the current stack trace. So when
+ the Exception itself has been thrown the Java Runtime then looks to see what can handle it. Which is done
+ by working back up the call stack, so each method of the stack gets the exception and if it doesn't handles it
+ then the exception gets passed onto the previous on the stack and so on. 
+ 
+ The exception is set to propagate through the call stack and keeps getting passed  to the calling methods 
+ until there's one that actually can handle the exception. 
+ 
+ Looking at the way the stack trace is printed it might make more sense to talk about propagation down
+ the call stack but stacks tend to be implemented growing downwards so we talked about "going back up the stack".
+ 
+ Eventually if nothing handles the exception the main Java entry point just prints the stack trace 
+ and the Java Runtime terminates.
+ 
+ Exception class barely contain something other than a constructor, they basically exist in order
+ to provide a more accurate description or identification of the issue occurred.
+ 
+ Exceptions class extends Throwable, which in his constructor has a method fillInStackTrace(){...}.
+ So, as long the constructor of an Exception calls super the stack traces are automatically available
+ to the object.
+ 
+ NOTE : if an exception occurs we can take the necessary actions in the catch{} block for the program
+ not to terminate, and maybe ask the user to provide a correct input. 
+ 
+ NOTE : it's valid for an Exception Handler to try to recover from an error condition, 
+ but is important to make sure that any code in catch block doesn't actually cause 
+ exceptions itself. A general advice is to keep the catch block as simple as possible.
+ 
+ NOTE : when throwing an Exception we must try to be as specific as possible. We can also use 
+ the constructor that takes an String as argument in order to provide more information about
+ the error.
+ 
+ NOTE : we can throw an Exception in a catch block.
+ 
+ NOTE : if we write proper exception handlers we get less and more useful information in the stack trace.
+ Ideally just the information concerning the methods that we coded and the one who caused the errors.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
